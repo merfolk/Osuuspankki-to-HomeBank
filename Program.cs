@@ -13,8 +13,15 @@ namespace osuuspankki_import
     {
         static void Main(string[] args)
         {
-            // todo: take as cmd parameter
-            var fileName = "tapahtumat20180801-20180818.csv";
+            if(args.Length == 0) {
+                Console.WriteLine("Error: Please give the file name to transform.");
+                return;
+            }
+
+            var fileName = args[0];
+
+            var splitFileName = fileName.Split('.');
+            var transformedFileName = splitFileName.First() + "-transformed" + "." + splitFileName.Last();
 
             var configuration = new Configuration() {
                 BadDataFound = (data) => Console.WriteLine("Error:" + data),
@@ -46,10 +53,10 @@ namespace osuuspankki_import
             Console.WriteLine();
             Console.WriteLine($"Read {rows.Count} lines from {fileName}.");
             Console.WriteLine();
-            Console.WriteLine($"Writing to file_name_here...");
+            Console.WriteLine($"Writing to {transformedFileName}...");
             Console.WriteLine();
 
-            using(var stream = File.Create("tapahtumat20180801-20180818-import.csv"))
+            using(var stream = File.Create(transformedFileName))
             using(var streamWriter = new StreamWriter(stream)) {
                 foreach(var row in rows) {
                     var result = MapOsuuspankkiRowToHomebankRow(row);
