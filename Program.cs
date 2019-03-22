@@ -66,7 +66,6 @@ namespace osuuspankki_import
             }
 
             Console.WriteLine();
-            //Console.WriteLine($"Wrote {rows.Count} lines.");
         }
 
         private static HomeBankImportRow MapOsuuspankkiRowToHomebankRow(OsuuspankkiRow OsuuspankkiRow) {
