@@ -12,17 +12,51 @@ namespace osuuspankki_import
     {
         static void Main(string[] args)
         {
-            if(args.Length == 0) {
-                Console.WriteLine("Error: Please give the file name to transform.");
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Error: Please give either a file name or an absolute directory path to transform.");
                 return;
             }
 
-            var fileName = args[0];
+            var filesToImport = new List<string>();
 
+            if (Directory.Exists(args[0]))
+            {
+                var path = args[0];
+                var files = Directory.GetFiles(path, "*.csv");
+                filesToImport.AddRange(files);
+            } else
+            {
+                var fileName = args[0];
+                filesToImport.Add(fileName);
+            }
+
+            Console.WriteLine($"Found files ({filesToImport.Count}):");
+            foreach(var fileName in filesToImport)
+            {
+                Console.WriteLine(fileName);
+            }
+
+            Console.WriteLine($"\nType 'yes' if you wish to transform all {filesToImport.Count} files listed above.");
+
+            var input = Console.ReadLine();
+            if (input != "yes") {
+                return;
+            }
+
+            foreach(var fileName in filesToImport)
+            {
+                TransformCsv(fileName);
+            }
+        }
+
+        private static void TransformCsv(string fileName)
+        {
             var splitFileName = fileName.Split('.');
             var transformedFileName = splitFileName.First() + "-transformed" + "." + splitFileName.Last();
 
-            var configuration = new Configuration() {
+            var configuration = new Configuration()
+            {
                 BadDataFound = (data) => Console.WriteLine("Error:" + data),
                 Delimiter = ";"
             };
@@ -34,8 +68,9 @@ namespace osuuspankki_import
             Console.WriteLine($"Reading rows from {fileName}...");
             Console.WriteLine();
 
-            using(var streamReader = new StreamReader(fileName, Encoding.GetEncoding("ISO-8859-1")))
-            using(var csvReader = new CsvReader(streamReader, configuration)) {
+            using (var streamReader = new StreamReader(fileName, Encoding.GetEncoding("ISO-8859-1")))
+            using (var csvReader = new CsvReader(streamReader, configuration))
+            {
                 // Ignore header
                 csvReader.Read();
                 csvReader.ReadHeader();
@@ -55,9 +90,11 @@ namespace osuuspankki_import
             Console.WriteLine($"Writing to {transformedFileName}...");
             Console.WriteLine();
 
-            using(var stream = File.Create(transformedFileName))
-            using(var streamWriter = new StreamWriter(stream)) {
-                foreach(var row in rows) {
+            using (var stream = File.Create(transformedFileName))
+            using (var streamWriter = new StreamWriter(stream))
+            {
+                foreach (var row in rows)
+                {
                     var result = MapOsuuspankkiRowToHomebankRow(row);
                     Console.WriteLine(result);
                     streamWriter.WriteLine(result);
