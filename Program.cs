@@ -49,15 +49,13 @@ namespace osuuspankki_import
 
             foreach(var fileName in pathsToImport)
             {
-                TransformCsv(fileName);
+                var transformedFileName = GetTransformedFileName(fileName);
+                TransformCsv(fileName, transformedFileName);
             }
         }
 
-        private static void TransformCsv(string fileName)
+        private static void TransformCsv(string fileName, string transformedFileName)
         {
-            var splitFileName = fileName.Split('.');
-            var transformedFileName = splitFileName.First() + "-transformed" + "." + splitFileName.Last();
-
             var configuration = new Configuration()
             {
                 BadDataFound = (data) => Console.WriteLine("Error:" + data),
@@ -105,6 +103,12 @@ namespace osuuspankki_import
             }
 
             Console.WriteLine();
+        }
+
+        private static string GetTransformedFileName(string fileName)
+        {
+            var splitFileName = fileName.Split('.');
+            return splitFileName.First() + "-transformed" + "." + splitFileName.Last();
         }
 
         private static HomeBankImportRow MapOsuuspankkiRowToHomebankRow(OsuuspankkiRow OsuuspankkiRow) {
