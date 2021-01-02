@@ -33,7 +33,7 @@ namespace osuuspankki_import
 
             var pathsToImport = filesToImport.Select(file => Path.GetFullPath(file));
 
-            Console.WriteLine($"Found files ({pathsToImport.Count()}):");
+            Console.WriteLine($"\nFound files ({pathsToImport.Count()}):");
             foreach(var fileName in pathsToImport)
             {
                 Console.WriteLine(fileName);
@@ -66,8 +66,7 @@ namespace osuuspankki_import
 
             var rows = new List<OsuuspankkiRow>();
 
-            Console.WriteLine($"Reading rows from {fileName}...");
-            Console.WriteLine();
+            Console.WriteLine($"Reading rows from {fileName}...\n");
 
             using (var streamReader = new StreamReader(fileName, Encoding.GetEncoding("ISO-8859-1")))
             using (var csvReader = new CsvReader(streamReader, configuration))
@@ -85,11 +84,8 @@ namespace osuuspankki_import
             }
 
             Console.WriteLine("...");
-            Console.WriteLine();
-            Console.WriteLine($"Read {rows.Count} lines from {fileName}.");
-            Console.WriteLine();
-            Console.WriteLine($"Writing to {transformedFileName}...");
-            Console.WriteLine();
+            Console.WriteLine($"\nRead {rows.Count} lines from {fileName}.");
+            Console.WriteLine($"\nWriting to {transformedFileName}...\n");
 
             using (var stream = File.Create(transformedFileName))
             using (var streamWriter = new StreamWriter(stream))
