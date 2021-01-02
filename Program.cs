@@ -28,7 +28,7 @@ namespace osuuspankki_import
                 Console.WriteLine(fileName);
             }
 
-            Console.WriteLine($"\nType 'yes' if you wish to transform all {filesToImport.Count()} files listed above.");
+            Console.Write($"\nType 'yes' if you wish to transform all {filesToImport.Count()} files listed above: ");
 
             var input = Console.ReadLine();
             if (input != "yes") {
