@@ -31,20 +31,23 @@ namespace osuuspankki_import
                 filesToImport.Add(fileName);
             }
 
-            Console.WriteLine($"Found files ({filesToImport.Count}):");
-            foreach(var fileName in filesToImport)
+            var pathsToImport = filesToImport.Select(file => Path.GetFullPath(file));
+
+            Console.WriteLine($"Found files ({pathsToImport.Count()}):");
+            foreach(var fileName in pathsToImport)
             {
                 Console.WriteLine(fileName);
             }
 
-            Console.WriteLine($"\nType 'yes' if you wish to transform all {filesToImport.Count} files listed above.");
+            Console.WriteLine($"\nType 'yes' if you wish to transform all {pathsToImport.Count()} files listed above.");
 
             var input = Console.ReadLine();
             if (input != "yes") {
                 return;
             }
 
-            foreach(var fileName in filesToImport)
+
+            foreach(var fileName in pathsToImport)
             {
                 TransformCsv(fileName);
             }
