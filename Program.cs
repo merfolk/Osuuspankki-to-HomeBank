@@ -20,28 +20,15 @@ namespace osuuspankki_import
                 return;
             }
 
-            var filesToImport = new List<string>();
+            var filesToImport = GetFilesToImport(args[0]);
 
-            if (Directory.Exists(args[0]))
-            {
-                var path = args[0];
-                var files = Directory.GetFiles(path, "*.csv");
-                filesToImport.AddRange(files);
-            } else
-            {
-                var fileName = args[0];
-                filesToImport.Add(fileName);
-            }
-
-            var pathsToImport = filesToImport.Select(file => Path.GetFullPath(file));
-
-            Console.WriteLine($"\nFound files ({pathsToImport.Count()}):");
-            foreach(var fileName in pathsToImport)
+            Console.WriteLine($"\nFound files ({filesToImport.Count()}):");
+            foreach(var fileName in filesToImport)
             {
                 Console.WriteLine(fileName);
             }
 
-            Console.WriteLine($"\nType 'yes' if you wish to transform all {pathsToImport.Count()} files listed above.");
+            Console.WriteLine($"\nType 'yes' if you wish to transform all {filesToImport.Count()} files listed above.");
 
             var input = Console.ReadLine();
             if (input != "yes") {
@@ -49,11 +36,29 @@ namespace osuuspankki_import
             }
 
 
-            foreach(var fileName in pathsToImport)
+            foreach(var fileName in filesToImport)
             {
                 var transformedFileName = GetTransformedFileName(fileName);
                 TransformCsv(fileName, transformedFileName);
             }
+        }
+
+        private static IEnumerable<string> GetFilesToImport(string searchPath) {
+            var filesToImport = new List<string>();
+
+            if (Directory.Exists(searchPath))
+            {
+                var path = searchPath;
+                var files = Directory.GetFiles(path, "*.csv");
+                filesToImport.AddRange(files);
+            } else
+            {
+                var fileName = searchPath;
+                filesToImport.Add(fileName);
+            }
+
+            return filesToImport.Select(file => Path.GetFullPath(file));
+
         }
 
         private static void TransformCsv(string fileName, string transformedFileName)
