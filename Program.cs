@@ -14,7 +14,9 @@ namespace osuuspankki_import
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Error: Please give either a file name or an absolute directory path to transform.");
+                Console.WriteLine("\nError: Please give either a file name or an absolute directory path to transform.");
+                Console.WriteLine("Eg. dotnet run new-file.csv");
+                Console.WriteLine("Eg. dotnet run new-files");
                 return;
             }
 
