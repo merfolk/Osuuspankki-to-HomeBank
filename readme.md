@@ -4,7 +4,7 @@ A simple command line utility for transforming CSV files from [Osuuspankki](http
 
 ## Prerequisites
 
-1. [Dotnet Core](https://dotnet.github.io/) 2.0 or newer is installed.
+1. [Dotnet Core](https://dotnet.github.io/) 2.x runtime is installed.
 
 ## Usage
 
