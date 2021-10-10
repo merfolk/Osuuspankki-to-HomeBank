@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -125,7 +126,7 @@ namespace osuuspankki_import
                 homebankRow.Payment = PaymentType.DebitCard;
             }
 
-            homebankRow.Amount = OsuuspankkiRow.Amount;
+            homebankRow.Amount = decimal.Parse(OsuuspankkiRow.Amount, CultureInfo.InvariantCulture);
             homebankRow.Payee = OsuuspankkiRow.Payee;
 
             return homebankRow;

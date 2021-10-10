@@ -5,7 +5,7 @@ namespace osuuspankki_import
     internal class OsuuspankkiRow {
         # pragma warning disable CS0649
         internal DateTime Date;
-        internal Decimal Amount;
+        internal String Amount;
         internal int PaymentType;
         internal String PaymentTypeExplanation;
         internal String Payee;
