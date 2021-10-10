@@ -35,7 +35,6 @@ namespace osuuspankki_import
                 return;
             }
 
-
             foreach(var fileName in filesToImport)
             {
                 var transformedFileName = GetTransformedFileName(fileName);
@@ -58,7 +57,6 @@ namespace osuuspankki_import
             }
 
             return filesToImport.Select(file => Path.GetFullPath(file));
-
         }
 
         private static void TransformCsv(string fileName, string transformedFileName)
