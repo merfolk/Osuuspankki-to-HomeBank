@@ -62,13 +62,12 @@ namespace osuuspankki_import
 
         private static void TransformCsv(string fileName, string transformedFileName)
         {
-            var configuration = new Configuration()
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                BadDataFound = (data) => Console.WriteLine("Error:" + data),
+                BadDataFound = null,
                 Delimiter = ";"
             };
 
-            configuration.RegisterClassMap<OsuuspankkiRowMap>();
 
             var rows = new List<OsuuspankkiRow>();
 
@@ -77,6 +76,8 @@ namespace osuuspankki_import
             using (var streamReader = new StreamReader(fileName, Encoding.GetEncoding("ISO-8859-1")))
             using (var csvReader = new CsvReader(streamReader, configuration))
             {
+                csvReader.Context.RegisterClassMap<OsuuspankkiRowMap>();
+                
                 // Ignore header
                 csvReader.Read();
                 csvReader.ReadHeader();
