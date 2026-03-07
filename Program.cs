@@ -127,7 +127,7 @@ namespace osuuspankki_import
                 homebankRow.Payment = PaymentType.DebitCard;
             }
 
-            homebankRow.Amount = decimal.Parse(OsuuspankkiRow.Amount, CultureInfo.InvariantCulture);
+            homebankRow.Amount = decimal.Parse(OsuuspankkiRow.Amount, new CultureInfo("fi-FI"));
             homebankRow.Payee = OsuuspankkiRow.Payee;
 
             return homebankRow;
